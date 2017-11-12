@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <time.h>
+#include <sstream>
+#include <stdlib.h>
 using namespace std;
 
 int** crear(int size);
@@ -9,11 +11,14 @@ void imprimir(int**,int);
 void multiplayer(int**,int);
 int** llenar(int**,int);
 void computadora(int**,int);
+bool verificar(int**,int);
+string convert(int);
+bool primo(string);
 
 int main(int argc, char const *argv[]) {
     int** matriz;
     int size;
-    cout<<"-----BIENVENIDO-----"<<endl;
+    cout<<"----BIENVENIDO----"<<endl;
         int resp, resp2;
         cout<<"Elija el tamaño"<<endl
         <<" 1. 4X4"<<endl
@@ -57,6 +62,173 @@ int main(int argc, char const *argv[]) {
     return 0;
 }
 
+string convert(int numero){
+    stringstream ss;
+    ss << numero;
+    return ss.str();
+}
+
+bool verificar(int** matriz, int size){
+    string num1 = "",num2 = "",num3 = "",num4 = "",num5 = "",num6 = "",num7 = "",num8 = "",num9 = "",num10 = "";
+    if(size != 20){
+        //filas
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i == 0) {
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num1 += convert(matriz[i][j]);
+                    }
+
+                }//end if 1
+                if(i == 1){
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num2 += convert(matriz[i][j]);
+                    }
+                }//end if2
+                if(i == 2){
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num3 += convert(matriz[i][j]);
+                    }
+                }//end if3
+                if(i == 3){
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num4 += convert(matriz[i][j]);
+                    }
+                }//end if4
+
+            }//segundo for
+
+        }//primer for
+
+        //columnas
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (j == 0) {
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num5 += convert(matriz[i][j]);
+                    }
+
+                }//end if 1
+                if(j == 1){
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num6 += convert(matriz[i][j]);
+                    }
+                }//end if2
+                if(j == 2){
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num7 += convert(matriz[i][j]);
+                    }
+                }//end if3
+                if(i == 3){
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num8 += convert(matriz[i][j]);
+                    }
+                }//end if4
+
+            }//segundo for
+
+        }//primer for
+
+        //diagonales
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i == j) {
+                    if(matriz[i][j] == -1){
+                        continue;
+                    }else{
+                        num9 += convert(matriz[i][j]);
+                    }
+
+                }//end if 1
+                if (size == 4) {
+                    if((i == 0 && j == 2) || (i == 2 && j == 0) || (i == 1 && j == 2) || (i == 2 && j == 1)){
+                        if(matriz[i][j] == -1){
+                            continue;
+                        }else{
+                            num10 += convert(matriz[i][j]);
+                        }
+                    }//end if2
+                }
+                if (size == 3) {
+                    if((i == 0 && j == 2) || (i == 2 && j == 0) || (i == 1 && j == 1)){
+                        if(matriz[i][j] == -1){
+                            continue;
+                        }else{
+                            num10 += convert(matriz[i][j]);
+                        }
+                    }//end if2
+                }
+                if (size == 2) {
+                    if((i == 0 && j == 1) || (i == 1 && j == 0)){
+                        if(matriz[i][j] == -1){
+                            continue;
+                        }else{
+                            num10 += convert(matriz[i][j]);
+                        }
+                    }//end if2
+                }
+
+            }//segundo for
+
+        }//primer for
+
+    }//end if principal
+
+    if(size == 4){
+        bool ver1,ver2,ver3,ver4,ver5,ver6,ver7,ver8,ver9,ver10;
+        ver1 = primo(num1);
+        ver2 = primo(num2);
+        ver3 = primo(num3);
+        ver4 = primo(num4);
+        ver5 = primo(num5);
+        ver6 = primo(num6);
+        ver7 = primo(num7);
+        ver8 = primo(num8);
+        ver9 = primo(num9);
+        ver10 = primo(num10);
+        cout<<endl;
+        cout<<num1<<" "<<num2<<" "<<num3<<" "<<num4<<" "<<num5<<" "<<num6<<" "<<num7<<" "<<num8<<" "<<num9<<" "<<num10<<endl;
+        if(ver1 || ver2 || ver3 || ver4 || ver5 || ver6 || ver7 || ver8 || ver9 || ver10){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+}
+
+bool primo (string numero){
+    int num = atoi(numero.c_str());
+    int cont;
+    for (int i = 1; i < num+1; i++) {
+        if(num%i==0){
+            cont++;
+        }
+    }
+    if(cont != 2){
+        return false;
+    }else{
+        return true;
+    }
+}
+
 void multiplayer(int** matriz, int size){
     string nombre1, nombre2;
     bool turno = true;
@@ -98,10 +270,17 @@ void multiplayer(int** matriz, int size){
 
         matriz[x][y] = numero;
         imprimir(matriz,size);
-
-
+        bool si = false;
         cont ++;
-    } while(cont!=5);
+        if(cont == 4){
+            si = verificar(matriz,size);
+            if(si){
+                cout<<"simon"<<endl;
+            }
+        }
+
+
+    } while(cont != 5);
 }
 
 void computadora(int** matriz, int size){
