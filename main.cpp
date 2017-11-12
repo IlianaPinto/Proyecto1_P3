@@ -14,6 +14,8 @@ void computadora(int**,int);
 string verificar(int**,int);
 string convert(int);
 bool primo(string);
+int** number(int**,int,int,int);
+string verificar4(int**,int);
 
 int main(int argc, char const *argv[]) {
     int** matriz;
@@ -70,7 +72,7 @@ string convert(int numero){
 
 string verificar(int** matriz, int size){
     string num1 = "",num2 = "",num3 = "",num4 = "",num5 = "",num6 = "",num7 = "",num8 = "",num9 = "",num10 = "";
-    if(size != 20){
+    if(size == 4){
         //filas
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -165,24 +167,7 @@ string verificar(int** matriz, int size){
                         }
                     }//end if2
                 }
-                if (size == 3) {
-                    if((i == 0 && j == 2) || (i == 2 && j == 0) || (i == 1 && j == 1)){
-                        if(matriz[i][j] == -1){
-                            continue;
-                        }else{
-                            num10 += convert(matriz[i][j]);
-                        }
-                    }//end if2
-                }
-                if (size == 2) {
-                    if((i == 0 && j == 1) || (i == 1 && j == 0)){
-                        if(matriz[i][j] == -1){
-                            continue;
-                        }else{
-                            num10 += convert(matriz[i][j]);
-                        }
-                    }//end if2
-                }
+
 
             }//segundo for
 
@@ -222,52 +207,7 @@ string verificar(int** matriz, int size){
             return num10;
         }
     }
-    if(size == 3){
-        if(num1.size() == 4){
-            return num1;
-        }
-        if(num2.size() == 4){
-            return num2;
-        }
-        if (num3.size() == 4) {
-            return num3;
-        }
-        if(num4.size() == 4) {
-            return num4;
-        }
-        if(num5.size() == 4){
-            return num5;
-        }
-        if(num6.size() == 4){
-            return num6;
-        }
-        if (num7.size() == 4) {
-            return num7;
-        }
-        if(num8.size() == 4){
-            return num8;
-        }
-        if(size == 2){
-            if(num1.size() == 4){
-                return num1;
-            }
-            if(num2.size() == 4){
-                return num2;
-            }
-            if (num3.size() == 4) {
-                return num3;
-            }
-            if(num4.size() == 4) {
-                return num4;
-            }
-            if(num5.size() == 4){
-                return num5;
-            }
-            if(num6.size() == 4){
-                return num6;
-            }
-        }
-    }
+
 
 }
 
@@ -330,7 +270,7 @@ void multiplayer(int** matriz, int size){
         cont++;
         bool si = false;
         string algo;
-        if(cont == 4){
+        if(cont == 3){
             algo = verificar(matriz,size);
             si = primo(algo);
         }
@@ -344,7 +284,7 @@ void multiplayer(int** matriz, int size){
 void computadora(int** matriz, int size){
     string nombre;
     bool turno = true;
-    int x,y,numero;
+    int x,y,numero,cont = 0;
     cout<<"Ingrese su nombre:"<<endl;
     cin>>nombre;
     imprimir(matriz,size);
@@ -375,13 +315,91 @@ void computadora(int** matriz, int size){
             turno = false;
         }else{
             cout<<"Turno de la computadora"<<endl;
-
+            matriz = number(matriz,size,x,y);
             turno = true;
-
+            imprimir(matriz,size);
         }
+        cont++;
 
+    } while(cont != 15);
+}
 
-    } while(false);
+string verificar4 (int** matriz, int size){
+    int cont = 0;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (matriz[i][j] != -1) {
+                if(i == 0){
+                    cont++;
+                }
+                if(i == 1){
+                    cont++;
+                }
+                if(i == 2){
+                    cont++;
+                }
+                if(i == 3){
+                    cont++;
+                }
+
+            }
+        }
+    }
+}
+
+int** number(int** matriz, int size, int x, int y){
+    srand (time(NULL));
+    bool ver = true;
+    if((x+1) < size){
+        if(matriz[x+1][y] == -1){
+            matriz[x+1][y] = rand() % 10;
+            ver = false;
+        }else if ((y+1) < size){
+            if (matriz[x][y+1] == -1) {
+                matriz[x][y+1] = rand() % 10;
+                ver = false;
+            }else if ((y-1) >= 0){
+                if(matriz[x][y-1] == -1){
+                    matriz[x][y-1] == rand() % 10;
+                    ver = false;
+                }
+            }
+        }
+    }else if ((x-1) >= 0){
+        if(matriz[x-1][y] == -1){
+            matriz[x-1][y] = rand() % 10;
+            ver = false;
+        }else if ((y+1) < size){
+            if (matriz[x][y+1] == -1) {
+                matriz[x][y+1] = rand() % 10;
+                ver = false;
+            }else if ((y-1) >= 0){
+                if(matriz[x][y-1] == -1){
+                    matriz[x][y-1] == rand() % 10;
+                    ver = false;
+
+                }
+            }
+        }
+    }
+    bool ver2 = false;
+    if(ver){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(matriz[i][j] == -1){
+                    matriz[i][j] = rand() % 10;
+                    ver2 = true;
+                }
+                if(ver2){
+                    break;
+                }
+            }//segundo for
+            if(ver2){
+                break;
+            }
+        }//primer for
+    }
+    return matriz;
 }
 
 int** llenar(int** matriz, int size){
