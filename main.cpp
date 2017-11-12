@@ -11,7 +11,7 @@ void imprimir(int**,int);
 void multiplayer(int**,int);
 int** llenar(int**,int);
 void computadora(int**,int);
-bool verificar(int**,int);
+string verificar(int**,int);
 string convert(int);
 bool primo(string);
 
@@ -68,7 +68,7 @@ string convert(int numero){
     return ss.str();
 }
 
-bool verificar(int** matriz, int size){
+string verificar(int** matriz, int size){
     string num1 = "",num2 = "",num3 = "",num4 = "",num5 = "",num6 = "",num7 = "",num8 = "",num9 = "",num10 = "";
     if(size != 20){
         //filas
@@ -191,25 +191,82 @@ bool verificar(int** matriz, int size){
     }//end if principal
 
     if(size == 4){
-        bool ver1,ver2,ver3,ver4,ver5,ver6,ver7,ver8,ver9,ver10;
-        ver1 = primo(num1);
-        ver2 = primo(num2);
-        ver3 = primo(num3);
-        ver4 = primo(num4);
-        ver5 = primo(num5);
-        ver6 = primo(num6);
-        ver7 = primo(num7);
-        ver8 = primo(num8);
-        ver9 = primo(num9);
-        ver10 = primo(num10);
-        cout<<endl;
-        cout<<num1<<" "<<num2<<" "<<num3<<" "<<num4<<" "<<num5<<" "<<num6<<" "<<num7<<" "<<num8<<" "<<num9<<" "<<num10<<endl;
-        if(ver1 || ver2 || ver3 || ver4 || ver5 || ver6 || ver7 || ver8 || ver9 || ver10){
-            return true;
-        }else{
-            return false;
+        if(num1.size() == 4){
+            return num1;
         }
-
+        if(num2.size() == 4){
+            return num2;
+        }
+        if (num3.size() == 4) {
+            return num3;
+        }
+        if(num4.size() == 4) {
+            return num4;
+        }
+        if(num5.size() == 4){
+            return num5;
+        }
+        if(num6.size() == 4){
+            return num6;
+        }
+        if (num7.size() == 4) {
+            return num7;
+        }
+        if(num8.size() == 4){
+            return num8;
+        }
+        if(num9.size() == 4){
+            return num9;
+        }
+        if(num10.size() == 4){
+            return num10;
+        }
+    }
+    if(size == 3){
+        if(num1.size() == 4){
+            return num1;
+        }
+        if(num2.size() == 4){
+            return num2;
+        }
+        if (num3.size() == 4) {
+            return num3;
+        }
+        if(num4.size() == 4) {
+            return num4;
+        }
+        if(num5.size() == 4){
+            return num5;
+        }
+        if(num6.size() == 4){
+            return num6;
+        }
+        if (num7.size() == 4) {
+            return num7;
+        }
+        if(num8.size() == 4){
+            return num8;
+        }
+        if(size == 2){
+            if(num1.size() == 4){
+                return num1;
+            }
+            if(num2.size() == 4){
+                return num2;
+            }
+            if (num3.size() == 4) {
+                return num3;
+            }
+            if(num4.size() == 4) {
+                return num4;
+            }
+            if(num5.size() == 4){
+                return num5;
+            }
+            if(num6.size() == 4){
+                return num6;
+            }
+        }
     }
 
 }
@@ -270,15 +327,16 @@ void multiplayer(int** matriz, int size){
 
         matriz[x][y] = numero;
         imprimir(matriz,size);
+        cont++;
         bool si = false;
-        cont ++;
+        string algo;
         if(cont == 4){
-            si = verificar(matriz,size);
-            if(si){
-                cout<<"simon"<<endl;
-            }
+            algo = verificar(matriz,size);
+            si = primo(algo);
         }
-
+        if(si){
+            cout<<"simon"<<endl;
+        }
 
     } while(cont != 5);
 }
