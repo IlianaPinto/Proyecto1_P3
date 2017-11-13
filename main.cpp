@@ -19,6 +19,7 @@ int columnas(int**,int);
 int diagonales(int**,int);
 bool verificarColumnas(int**,int,int);
 bool verificarFilas(int**,int,int);
+bool verificarDiagonales(int**,int,int);
 
 int main(int argc, char const *argv[]) {
     int** matriz;
@@ -197,7 +198,15 @@ void computadora(int** matriz, int size){
             }
         }
         if(diagonales(matriz,size) != -2){
+            if(verificarDiagonales(matriz,size,diagonales(matriz,size))){
+                if(!turno){
+                    cout<<nombre<<" has ganado!"<<endl;
+                }else{
+                    cout<<"La computadora ha ganado"<<endl;
+                }
+                ganador = false;
 
+            }
         }
         if(columnas(matriz,size) != -2){
             if(verificarColumnas(matriz,size,columnas(matriz,size))){
@@ -218,6 +227,34 @@ void computadora(int** matriz, int size){
 
 
     } while(ganador);
+}
+
+bool verificarDiagonales(int** matriz,int size,int numero){
+    string acum = "";
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if(numero == 1){
+                if((i == 0 && j == size-1) || (i == size-1 && j == 0)){
+                    acum += convert(matriz[i][j]);
+                }
+                if(size == 4){
+                    if((i == 1 && j == 2) || (j == 1 && i == 2)){
+                        acum += convert(matriz[i][j]);
+                    }
+                }else if (size == 3){
+                    if(i == 1 && j == 1){
+                        acum += convert(matriz[i][j]);
+                    }
+                }
+            }else if(numero == 2){
+                if(i == j){
+                    acum += convert(matriz[i][j]);
+                }
+            }
+
+        }
+    }
+    return primo(acum);
 }
 
 bool verificarFilas (int** matriz, int size, int numero){
@@ -318,7 +355,7 @@ int diagonales(int** matriz,int size){
                     cont++;
                 }
             }else if(size == 3){
-                if(i == j){
+                if(i == 1 && j == 1){
                     cont++;
                 }
             }
