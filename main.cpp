@@ -11,11 +11,13 @@ void imprimir(int**,int);
 void multiplayer(int**,int);
 int** llenar(int**,int);
 void computadora(int**,int);
-string verificar(int**,int);
 string convert(int);
 bool primo(string);
 int** number(int**,int,int,int);
-string verificar4(int**,int);
+int filas(int**,int);
+int columnas(int**,int);
+int diagonales(int**,int);
+void verificar(int**,int);
 
 int main(int argc, char const *argv[]) {
     int** matriz;
@@ -55,7 +57,7 @@ int main(int argc, char const *argv[]) {
         }
 
         if (resp2 == 1) {
-            multiplayer(llenar(matriz,size),size);
+
         }else{
             computadora(llenar(matriz,size),size);
         }
@@ -70,146 +72,7 @@ string convert(int numero){
     return ss.str();
 }
 
-string verificar(int** matriz, int size){
-    string num1 = "",num2 = "",num3 = "",num4 = "",num5 = "",num6 = "",num7 = "",num8 = "",num9 = "",num10 = "";
-    if(size == 4){
-        //filas
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (i == 0) {
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num1 += convert(matriz[i][j]);
-                    }
 
-                }//end if 1
-                if(i == 1){
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num2 += convert(matriz[i][j]);
-                    }
-                }//end if2
-                if(i == 2){
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num3 += convert(matriz[i][j]);
-                    }
-                }//end if3
-                if(i == 3){
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num4 += convert(matriz[i][j]);
-                    }
-                }//end if4
-
-            }//segundo for
-
-        }//primer for
-
-        //columnas
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (j == 0) {
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num5 += convert(matriz[i][j]);
-                    }
-
-                }//end if 1
-                if(j == 1){
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num6 += convert(matriz[i][j]);
-                    }
-                }//end if2
-                if(j == 2){
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num7 += convert(matriz[i][j]);
-                    }
-                }//end if3
-                if(i == 3){
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num8 += convert(matriz[i][j]);
-                    }
-                }//end if4
-
-            }//segundo for
-
-        }//primer for
-
-        //diagonales
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (i == j) {
-                    if(matriz[i][j] == -1){
-                        continue;
-                    }else{
-                        num9 += convert(matriz[i][j]);
-                    }
-
-                }//end if 1
-                if (size == 4) {
-                    if((i == 0 && j == 2) || (i == 2 && j == 0) || (i == 1 && j == 2) || (i == 2 && j == 1)){
-                        if(matriz[i][j] == -1){
-                            continue;
-                        }else{
-                            num10 += convert(matriz[i][j]);
-                        }
-                    }//end if2
-                }
-
-
-            }//segundo for
-
-        }//primer for
-
-    }//end if principal
-
-    if(size == 4){
-        if(num1.size() == 4){
-            return num1;
-        }
-        if(num2.size() == 4){
-            return num2;
-        }
-        if (num3.size() == 4) {
-            return num3;
-        }
-        if(num4.size() == 4) {
-            return num4;
-        }
-        if(num5.size() == 4){
-            return num5;
-        }
-        if(num6.size() == 4){
-            return num6;
-        }
-        if (num7.size() == 4) {
-            return num7;
-        }
-        if(num8.size() == 4){
-            return num8;
-        }
-        if(num9.size() == 4){
-            return num9;
-        }
-        if(num10.size() == 4){
-            return num10;
-        }
-    }
-
-
-}
 
 bool primo (string numero){
     int num = atoi(numero.c_str());
@@ -271,8 +134,8 @@ void multiplayer(int** matriz, int size){
         bool si = false;
         string algo;
         if(cont == 3){
-            algo = verificar(matriz,size);
-            si = primo(algo);
+
+
         }
         if(si){
             cout<<"simon"<<endl;
@@ -316,6 +179,15 @@ void computadora(int** matriz, int size){
         }else{
             cout<<"Turno de la computadora"<<endl;
             matriz = number(matriz,size,x,y);
+            if (filas(matriz,size) != -2) {
+
+            }
+            if(diagonales(matriz,size) != -2){
+
+            }
+            if(columnas(matriz,size) != -2){
+
+            }
             turno = true;
             imprimir(matriz,size);
         }
@@ -324,26 +196,98 @@ void computadora(int** matriz, int size){
     } while(cont != 15);
 }
 
-string verificar4 (int** matriz, int size){
-    int cont = 0;
+int filas (int** matriz, int size){
+    int cont = 0, cont2 = 0, cont3 = 0, cont4 = 0;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             if (matriz[i][j] != -1) {
                 if(i == 0){
                     cont++;
+                }else if(i == 1){
+                    cont2++;
+                }else if(i == 2){
+                    cont3++;
+                }else if(i == 3){
+                    cont4++;
                 }
-                if(i == 1){
-                    cont++;
-                }
-                if(i == 2){
-                    cont++;
-                }
-                if(i == 3){
-                    cont++;
-                }
+            }//end if
+        }
+    }//end for
+    if (cont == size) {
+        return 0;
+    } else if(cont2 == size){
+        return 1;
+    }else if(cont3 == size){
+        return 2;
+    }else if(cont4 == size){
+        return 3;
+    }else{
+        return -2;
+    }
+}
 
+int columnas(int** matriz, int size){
+    int cont = 0, cont2 = 0, cont3 = 0, cont4 = 0;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if(matriz[i][j] != -1){
+                if(j == 0){
+                    cont++;
+                }else if(j == 1){
+                    cont2++;
+                }else if(j == 2){
+                    cont3++;
+                }else if(j == 3){
+                    cont4++;
+                }
+            }//end if
+        }//end segundo for
+    }//end primer for
+    if(cont == size){
+        return 0;
+    }else if(cont2 == size){
+        return 1;
+    }else if (cont3 == size){
+        return 2;
+    }else if(cont4 == size){
+        return 3;
+    }else{
+        return -2;
+    }
+}
+
+int diagonales(int** matriz,int size){
+    int cont = 0, cont2 = 0;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if ((i == 0 && j == size-1) || (i == size-1 && j == 0)) {
+                if(matriz[i][j] != -1){
+                    cont++;
+                }
+            }
+            if(size == 4){
+                if((i == 1 && j == 2) || (i == 2 && j == 1)){
+                    cont++;
+                }
+            }else if(size == 3){
+                if(i == j){
+                    cont++;
+                }
+            }
+
+            if(matriz[i][j] != -1){
+                if(i == j){
+                    cont2++;
+                }
             }
         }
+    }
+    if (cont == size) {
+        return 1;
+    }else if(cont2 == size){
+        return 2;
+    }else{
+        return -2;
     }
 }
 
