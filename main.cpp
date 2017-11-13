@@ -17,7 +17,8 @@ int** number(int**,int,int,int);
 int filas(int**,int);
 int columnas(int**,int);
 int diagonales(int**,int);
-void verificar(int**,int);
+bool verificarColumnas(int**,int,int);
+bool verificarFilas(int**,int,int);
 
 int main(int argc, char const *argv[]) {
     int** matriz;
@@ -146,12 +147,13 @@ void multiplayer(int** matriz, int size){
 
 void computadora(int** matriz, int size){
     string nombre;
-    bool turno = true;
+    bool turno = true, ganador = true;
     int x,y,numero,cont = 0;
     cout<<"Ingrese su nombre:"<<endl;
     cin>>nombre;
     imprimir(matriz,size);
     do {
+
         cout<<endl;
         if (turno) {
             cout<<nombre<<" es tu turno"<<endl;
@@ -175,25 +177,71 @@ void computadora(int** matriz, int size){
             }
             matriz[x][y] = numero;
             imprimir(matriz,size);
+
             turno = false;
         }else{
             cout<<"Turno de la computadora"<<endl;
             matriz = number(matriz,size,x,y);
-            if (filas(matriz,size) != -2) {
-
-            }
-            if(diagonales(matriz,size) != -2){
-
-            }
-            if(columnas(matriz,size) != -2){
-
-            }
             turno = true;
             imprimir(matriz,size);
         }
         cont++;
+        if (filas(matriz,size) != -2) {
+            if(verificarFilas(matriz,size,filas(matriz,size))){
+                if(!turno){
+                    cout<<nombre<<" has ganado!"<<endl;
+                }else{
+                    cout<<"La computadora ha ganado"<<endl;
+                }
+                ganador = false;
+            }
+        }
+        if(diagonales(matriz,size) != -2){
 
-    } while(cont != 15);
+        }
+        if(columnas(matriz,size) != -2){
+            if(verificarColumnas(matriz,size,columnas(matriz,size))){
+                if(!turno){
+                    cout<<nombre<<" has ganado!"<<endl;
+                }else{
+                    cout<<"La computadora ha ganado"<<endl;
+                }
+                ganador = false;
+            }
+        }
+        if(size == 4){
+            if(cont == 16){
+                ganador = false;
+                cout<<"Empate"<<endl;
+            }
+        }
+
+
+    } while(ganador);
+}
+
+bool verificarFilas (int** matriz, int size, int numero){
+    string acum = "";
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if(numero == i){
+                acum += convert(matriz[i][j]);
+            }
+        }
+    }
+    return primo(acum);
+}
+
+bool verificarColumnas(int** matriz, int size, int numero){
+    string acum = "";
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if(j == numero){
+                acum += convert(matriz[i][j]);
+            }
+        }
+    }
+    return primo(acum);
 }
 
 int filas (int** matriz, int size){
