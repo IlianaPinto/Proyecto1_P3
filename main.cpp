@@ -20,37 +20,21 @@ int diagonales(int**,int);
 bool verificarColumnas(int**,int,int);
 bool verificarFilas(int**,int,int);
 bool verificarDiagonales(int**,int,int);
+string menu();
+string menu2();
 
 int main(int argc, char const *argv[]) {
     int** matriz;
     int size;
-    cout<<"----BIENVENIDO----"<<endl;
-        int resp, resp2;
-        cout<<"Seleccione un tamaño"<<endl
-        <<" 1. 4X4"<<endl
-        <<" 2. 3X3"<<endl
-        <<" 3. 2X2"<<endl;
-        cin>>resp;
-        while (resp < 1 || resp > 3) {
-            cout<<endl;
-            cout<<"Opcion invalida, ingrese nuevamente"<<endl;
-            cin>>resp;
-        }
+    string resp, resp2;
+        resp = menu();
         cout<<endl;
-        cout<<"Seleccione con quien desea jugar"<<endl
-        <<" 1. Multiplayer"<<endl
-        <<" 2. Computadora"<<endl;
-        cin>>resp2;
-        while (resp2 < 1 || resp2 > 2) {
-            cout<<endl;
-            cout<<"Opcion invalida, ingrese nuevamente"<<endl;
-            cin>>resp2;
-        }
+        resp2 = menu2();
         cout<<endl;
-        if (resp == 1) {
+        if (resp == "1") {
             matriz = crear(4);
             size = 4;
-        }else if(resp == 2){
+        }else if(resp == "2"){
             matriz = crear(3);
             size = 3;
         }else{
@@ -58,7 +42,7 @@ int main(int argc, char const *argv[]) {
             size = 2;
         }
 
-        if (resp2 == 1) {
+        if (resp2 == "1") {
             multiplayer(llenar(matriz,size),size);
         }else{
             computadora(llenar(matriz,size),size);
@@ -543,4 +527,34 @@ void limpiar(int** matriz, int size){
         matriz[i] = NULL;
     }
     delete[] matriz;
+}
+
+string menu(){
+    cout<<"----BIENVENIDO----"<<endl;
+        string resp;
+        cout<<"Seleccione un tamaño"<<endl
+        <<" 1. 4X4"<<endl
+        <<" 2. 3X3"<<endl
+        <<" 3. 2X2"<<endl;
+        cin>>resp;
+        while ((resp != "1") && (resp != "2") && (resp != "3")) {
+            cout<<endl;
+            cout<<"Opcion invalida, ingrese nuevamente"<<endl;
+            cin>>resp;
+        }
+        return resp;
+}
+
+string menu2(){
+    string resp2;
+    cout<<"Seleccione con quien desea jugar"<<endl
+    <<" 1. Multiplayer"<<endl
+    <<" 2. Computadora"<<endl;
+    cin>>resp2;
+    while (resp2 != "1" && resp2 != "2") {
+        cout<<endl;
+        cout<<"Opcion invalida, ingrese nuevamente"<<endl;
+        cin>>resp2;
+    }
+    return resp2;
 }
