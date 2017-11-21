@@ -15,6 +15,7 @@ string convert(int);
 bool primo(string);
 //dificultades del juego
 int** numberEasy(int**,int,int,int);
+int** numberMedium(int**,int,int,int);
 //verifica si hay alguna fila, columna o diagonal llena de numeros
 int filas(int**,int);
 int columnas(int**,int);
@@ -211,30 +212,31 @@ void computadora(int** matriz, int size,string opcion){
             }
             numero = atoi(numstr.c_str());
             while ( cout << "Ingrese posicion en x: "<<endl && !(cin >> x) ){
-		      cout << "Lo ingresado no es un numero!\n\n" ;
-		      cin.clear() ; //limpia el error
-		      cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
+		       cout << "Lo ingresado no es un numero!\n\n" ;
+		       cin.clear() ; //limpia el error
+		       cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
 	         }
 
              while ( cout << "Ingrese posicion en y: "<<endl && !(cin >> y) ){
-               cout << "Lo ingresado no es un numero!\n\n" ;
+                cout << "Lo ingresado no es un numero!\n\n" ;
                 cin.clear() ; //limpia el error
                 cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
              }
 
             while(x >= size || x < 0 || y >= size || y < 0 || matriz[x][y] != -1){
+                cout<<endl;
                 cout<<"Posicion incorrecta, ingrese de nuevo"<<endl;
                 while ( cout << "Ingrese posicion en x: "<<endl && !(cin >> x) ){
     		       cout << "Lo ingresado no es un numero!\n\n" ;
     		       cin.clear() ; //limpia el error
     		       cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
-    	         }
+    	        }
 
                 while ( cout << "Ingrese posicion en y: "<<endl && !(cin >> y) ){
                    cout << "Lo ingresado no es un numero!\n\n" ;
                    cin.clear() ; //limpia el error
                    cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
-                 }
+                }
             }
 
             matriz[x][y] = numero;
@@ -246,7 +248,7 @@ void computadora(int** matriz, int size,string opcion){
             if (opcion == "1") {
                 matriz = numberEasy(matriz,size,x,y);
             }else if (opcion == "2"){
-
+                matriz = numberMedium(matriz,size,x,y);
             }else{
 
             }
@@ -305,6 +307,21 @@ void computadora(int** matriz, int size,string opcion){
             }
         }
     } while(ganador);
+}
+
+int** numberEasy(int** matriz, int size, int x, int y){
+    srand (time(NULL));
+    int x2,y2,numero;
+    bool ver = true;
+    while (ver) {
+        x2 = rand() % size;
+        y2 = rand() % size;
+        if(matriz[x2][y2] == -1){
+            matriz[x2][y2] =  rand() % 10;
+            ver = false;
+        }
+    }
+    return matriz;
 }
 
 bool verificarDiagonales(int** matriz,int size,int numero){
@@ -481,7 +498,7 @@ int diagonales(int** matriz,int size){
     }
 }
 
-int** numberEasy(int** matriz, int size, int x, int y){
+int** numberMedium(int** matriz, int size, int x, int y){
     srand (time(NULL));
     bool ver = true;
     //verifica las casillas disponibles
