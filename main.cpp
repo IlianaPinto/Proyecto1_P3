@@ -3,6 +3,7 @@
 #include <time.h>
 #include <sstream>
 #include <stdlib.h>
+#include <limits>
 using namespace std;
 
 int** crear(int size);
@@ -10,23 +11,30 @@ void limpiar(int**,int);
 void imprimir(int**,int);
 void multiplayer(int**,int);
 int** llenar(int**,int);
-void computadora(int**,int);
 string convert(int);
 bool primo(string);
-int** number(int**,int,int,int);
+//dificultades del juego
+int** numberEasy(int**,int,int,int);
+//verifica si hay alguna fila, columna o diagonal llena de numeros
 int filas(int**,int);
 int columnas(int**,int);
 int diagonales(int**,int);
+//verifica si en las columnas, filas o en las diagonales hay numeros primos
 bool verificarColumnas(int**,int,int);
 bool verificarFilas(int**,int,int);
 bool verificarDiagonales(int**,int,int);
+
+void computadora(int**,int,string);
+
+
 string menu();
 string menu2();
+string menu3();
 
 int main(int argc, char const *argv[]) {
     int** matriz;
     int size;
-    string resp, resp2;
+    string resp, resp2, resp3;
         resp = menu();
         cout<<endl;
         resp2 = menu2();
@@ -45,14 +53,21 @@ int main(int argc, char const *argv[]) {
         if (resp2 == "1") {
             multiplayer(llenar(matriz,size),size);
         }else{
-            computadora(llenar(matriz,size),size);
+            resp3 = menu3();
+            if(resp3 == "1"){
+                computadora(llenar(matriz,size),size,"1");
+            }else if (resp3 == "2"){
+                computadora(llenar(matriz,size),size,"2");
+            }else{
+                computadora(llenar(matriz,size),size,"3");
+            }
         }
 
     limpiar(matriz,size);
     return 0;
 }
 
-string convert(int numero){
+string convert(int numero){// convierto el entero a un string para poder concatenar
     stringstream ss;
     ss << numero;
     return ss.str();
@@ -83,6 +98,7 @@ void multiplayer(int** matriz, int size){
     cin>>nombre2;
     do {
         cout<<endl;
+        //selecciona de quien es el turno
         if(turno){
             cout<<nombre1<<" es tu turno"<<endl;
             turno = false;
@@ -92,7 +108,12 @@ void multiplayer(int** matriz, int size){
         }
         imprimir(matriz,size);
         cout<<"Ingrese numero:"<<endl;
-        cin>>numero;
+        try{
+            cin>>numero;
+        }catch (int e){
+            cout<<"Ocurrio una excepcion "<<e<<endl;
+        }
+        //cin>>numero;
         while (numero < 0 || numero > 9) {
             cout<<endl;
             cout<<"Numero invalido, ingrese nuevamente"<<endl;
@@ -115,6 +136,7 @@ void multiplayer(int** matriz, int size){
         matriz[x][y] = numero;
         imprimir(matriz,size);
         cont++;
+        //verificar si hay algun numero primo
         if (filas(matriz,size) != -2) {
             if(verificarFilas(matriz,size,filas(matriz,size))){
                 if(!turno){
@@ -168,47 +190,72 @@ void multiplayer(int** matriz, int size){
     } while(ganador);
 }
 
-void computadora(int** matriz, int size){
+void computadora(int** matriz, int size,string opcion){
     string nombre;
-    bool turno = true, ganador = true;
+    bool turno = true, ganador = true,verNum = false;
     int x,y,numero,cont = 0;
+    string xString,yString,numstr;
     cout<<"Ingrese su nombre:"<<endl;
     cin>>nombre;
     imprimir(matriz,size);
     do {
-
         cout<<endl;
         if (turno) {
             cout<<nombre<<" es tu turno"<<endl;
             cout<<"Ingrese numero:"<<endl;
-            cin>>numero;
-            while (numero > 9 || numero < 0) {
-                cout<<endl;
+            cin>>numstr;
+            while (numstr != "0" && numstr != "1" && numstr != "2" &&numstr != "3" &&numstr != "4" &&numstr != "5" &&numstr != "6" &&numstr != "7" &&numstr != "8" &&numstr != "9") {
                 cout<<"Numero incorrecto, ingrese nuevamente"<<endl;
-                cin>>numero;
+                cout<<"Ingrese numero:"<<endl;
+                cin>>numstr;
             }
-            cout<<"Ingrese posicion en x:"<<endl;
-            cin>>x;
-            cout<<"Ingrese posicion en y:"<<endl;
-            cin>>y;
-            while (x < 0 || x >= size || y < 0 || y >= size || matriz[x][y] != -1) {
+            numero = atoi(numstr.c_str());
+            while ( cout << "Ingrese posicion en x: "<<endl && !(cin >> x) ){
+		      cout << "Lo ingresado no es un numero!\n\n" ;
+		      cin.clear() ; //limpia el error
+		      cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
+	         }
+
+             while ( cout << "Ingrese posicion en y: "<<endl && !(cin >> y) ){
+               cout << "Lo ingresado no es un numero!\n\n" ;
+                cin.clear() ; //limpia el error
+                cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
+             }
+
+            while(x >= size || x < 0 || y >= size || y < 0 || matriz[x][y] != -1){
                 cout<<"Posicion incorrecta, ingrese de nuevo"<<endl;
-                cout<<"Ingrese posicion en x:"<<endl;
-                cin>>x;
-                cout<<"Ingrese posicion en y:"<<endl;
-                cin>>y;
+                while ( cout << "Ingrese posicion en x: "<<endl && !(cin >> x) ){
+    		       cout << "Lo ingresado no es un numero!\n\n" ;
+    		       cin.clear() ; //limpia el error
+    		       cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
+    	         }
+
+                while ( cout << "Ingrese posicion en y: "<<endl && !(cin >> y) ){
+                   cout << "Lo ingresado no es un numero!\n\n" ;
+                   cin.clear() ; //limpia el error
+                   cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
+                 }
             }
+
             matriz[x][y] = numero;
             imprimir(matriz,size);
 
             turno = false;
         }else{
             cout<<"Turno de la computadora"<<endl;
-            matriz = number(matriz,size,x,y);
+            if (opcion == "1") {
+                matriz = numberEasy(matriz,size,x,y);
+            }else if (opcion == "2"){
+
+            }else{
+
+            }
+
             turno = true;
             imprimir(matriz,size);
         }
         cont++;
+        //verificar si hay un numero primo
         if (filas(matriz,size) != -2) {
             if(verificarFilas(matriz,size,filas(matriz,size))){
                 if(!turno){
@@ -240,6 +287,7 @@ void computadora(int** matriz, int size){
                 ganador = false;
             }
         }
+        //verifica si hay un empate
         if(size == 4){
             if(cont == 16){
                 ganador = false;
@@ -256,8 +304,6 @@ void computadora(int** matriz, int size){
                 cout<<"Empate"<<endl;
             }
         }
-
-
     } while(ganador);
 }
 
@@ -435,7 +481,7 @@ int diagonales(int** matriz,int size){
     }
 }
 
-int** number(int** matriz, int size, int x, int y){
+int** numberEasy(int** matriz, int size, int x, int y){
     srand (time(NULL));
     bool ver = true;
     //verifica las casillas disponibles
@@ -557,4 +603,19 @@ string menu2(){
         cin>>resp2;
     }
     return resp2;
+}
+
+string menu3(){
+    string resp;
+    cout<<"Seleccione la dificultad"<<endl
+    <<" 1. Easy"<<endl
+    <<" 2. Medium"<<endl
+    <<" 3. Hard"<<endl;
+    cin>>resp;
+    while ((resp != "1") && (resp != "2") && (resp != "3")) {
+        cout<<endl;
+        cout<<"Opcion invalida, ingrese nuevamente"<<endl;
+        cin>>resp;
+    }
+    return resp;
 }
