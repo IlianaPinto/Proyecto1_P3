@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
     int size;
     cout<<"----BIENVENIDO----"<<endl;
         int resp, resp2;
-        cout<<"Elija el tamaño"<<endl
+        cout<<"Seleccione un tamaño"<<endl
         <<" 1. 4X4"<<endl
         <<" 2. 3X3"<<endl
         <<" 3. 2X2"<<endl;
@@ -37,7 +37,7 @@ int main(int argc, char const *argv[]) {
             cin>>resp;
         }
         cout<<endl;
-        cout<<"Elija con quien desea jugar"<<endl
+        cout<<"Seleccione con quien desea jugar"<<endl
         <<" 1. Multiplayer"<<endl
         <<" 2. Computadora"<<endl;
         cin>>resp2;
@@ -59,7 +59,7 @@ int main(int argc, char const *argv[]) {
         }
 
         if (resp2 == 1) {
-
+            multiplayer(llenar(matriz,size),size);
         }else{
             computadora(llenar(matriz,size),size);
         }
@@ -91,7 +91,7 @@ bool primo (string numero){
 
 void multiplayer(int** matriz, int size){
     string nombre1, nombre2;
-    bool turno = true;
+    bool turno = true, ganador = true;
     int x,y,numero,cont=0;
     cout<<"Jugador 1 ingrese su nombre: "<<endl;
     cin>>nombre1;
@@ -131,17 +131,57 @@ void multiplayer(int** matriz, int size){
         matriz[x][y] = numero;
         imprimir(matriz,size);
         cont++;
-        bool si = false;
-        string algo;
-        if(cont == 3){
-
-
+        if (filas(matriz,size) != -2) {
+            if(verificarFilas(matriz,size,filas(matriz,size))){
+                if(!turno){
+                    cout<<nombre1<<" has ganado!"<<endl;
+                }else{
+                    cout<<nombre2<<" has ganado!"<<endl;
+                }
+                ganador = false;
+            }
         }
-        if(si){
-            cout<<"simon"<<endl;
+        if(diagonales(matriz,size) != -2){
+            if(verificarDiagonales(matriz,size,diagonales(matriz,size))){
+                if(!turno){
+                    cout<<nombre1<<" has ganado!"<<endl;
+                }else{
+                    cout<<nombre2<<" has ganado!"<<endl;
+                }
+                ganador = false;
+
+            }
+        }
+        if(columnas(matriz,size) != -2){
+            if(verificarColumnas(matriz,size,columnas(matriz,size))){
+                if(!turno){
+                    cout<<nombre1<<" has ganado!"<<endl;
+                }else{
+                    cout<<nombre2<<" has ganado!"<<endl;
+                }
+                ganador = false;
+            }
+        }
+        if(size == 4){
+            if(cont == 16){
+                ganador = false;
+                cout<<"Empate"<<endl;
+            }
+        }else if (size == 3){
+            if (cont == 9) {
+                ganador = false;
+                cout<<"Empate"<<endl;
+            }
+        }else if (size == 2){
+            if(cont == 4){
+                ganador = false;
+                cout<<"Empate"<<endl;
+            }
         }
 
-    } while(cont != 5);
+
+
+    } while(ganador);
 }
 
 void computadora(int** matriz, int size){
@@ -218,6 +258,16 @@ void computadora(int** matriz, int size){
         }
         if(size == 4){
             if(cont == 16){
+                ganador = false;
+                cout<<"Empate"<<endl;
+            }
+        }else if (size == 3){
+            if (cont == 9) {
+                ganador = false;
+                cout<<"Empate"<<endl;
+            }
+        }else if (size == 2){
+            if(cont == 4){
                 ganador = false;
                 cout<<"Empate"<<endl;
             }
