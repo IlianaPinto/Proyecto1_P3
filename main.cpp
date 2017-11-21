@@ -74,8 +74,6 @@ string convert(int numero){
     return ss.str();
 }
 
-
-
 bool primo (string numero){
     int num = atoi(numero.c_str());
     int cont;
@@ -230,7 +228,7 @@ void computadora(int** matriz, int size){
 }
 
 bool verificarDiagonales(int** matriz,int size,int numero){
-    string acum = "";
+    string acum = "",back = "";
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             if(numero == 1){
@@ -254,11 +252,20 @@ bool verificarDiagonales(int** matriz,int size,int numero){
 
         }
     }
-    return primo(acum);
+    for (int i = acum.size()-1; i >= 0; i--) {
+        back += acum.at(i);
+    }
+    if (primo(back)) {
+        return true;
+    }else if (primo(acum)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 bool verificarFilas (int** matriz, int size, int numero){
-    string acum = "";
+    string acum = "",back = "";
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             if(numero == i){
@@ -266,11 +273,20 @@ bool verificarFilas (int** matriz, int size, int numero){
             }
         }
     }
-    return primo(acum);
+    for (int i = acum.size()-1; i >= 0; i--) {
+        back += acum.at(i);
+    }
+    if (primo(back)) {
+        return true;
+    }else if (primo(acum)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 bool verificarColumnas(int** matriz, int size, int numero){
-    string acum = "";
+    string acum = "", back = "";
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             if(j == numero){
@@ -278,7 +294,16 @@ bool verificarColumnas(int** matriz, int size, int numero){
             }
         }
     }
-    return primo(acum);
+    for (int i = acum.size(); i >= 0; i--) {
+        back += acum[i];
+    }
+    if (primo(back)) {
+        return true;
+    }else if (primo(acum)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 int filas (int** matriz, int size){
@@ -379,6 +404,7 @@ int diagonales(int** matriz,int size){
 int** number(int** matriz, int size, int x, int y){
     srand (time(NULL));
     bool ver = true;
+    //verifica las casillas disponibles
     if((x+1) < size){
         if(matriz[x+1][y] == -1){
             matriz[x+1][y] = rand() % 10;
