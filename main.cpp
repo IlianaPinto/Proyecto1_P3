@@ -9,13 +9,13 @@ using namespace std;
 int** crear(int size);
 void limpiar(int**,int);
 void imprimir(int**,int);
-void multiplayer(int**,int);
 int** llenar(int**,int);
 string convert(int);
 bool primo(string);
 //dificultades del juego
 int** numberEasy(int**,int,int,int);
 int** numberMedium(int**,int,int,int);
+int** numbreHard(int**,int,int,int);
 //verifica si hay alguna fila, columna o diagonal llena de numeros
 int filas(int**,int);
 int columnas(int**,int);
@@ -26,7 +26,7 @@ bool verificarFilas(int**,int,int);
 bool verificarDiagonales(int**,int,int);
 
 void computadora(int**,int,string);
-
+void multiplayer(int**,int);
 
 string menu();
 string menu2();
@@ -169,6 +169,7 @@ void multiplayer(int** matriz, int size){
                 ganador = false;
             }
         }
+        //verifica si hay empate
         if(size == 4){
             if(cont == 16){
                 ganador = false;
@@ -185,9 +186,6 @@ void multiplayer(int** matriz, int size){
                 cout<<"Empate"<<endl;
             }
         }
-
-
-
     } while(ganador);
 }
 
@@ -205,7 +203,8 @@ void computadora(int** matriz, int size,string opcion){
             cout<<nombre<<" es tu turno"<<endl;
             cout<<"Ingrese numero:"<<endl;
             cin>>numstr;
-            while (numstr != "0" && numstr != "1" && numstr != "2" &&numstr != "3" &&numstr != "4" &&numstr != "5" &&numstr != "6" &&numstr != "7" &&numstr != "8" &&numstr != "9") {
+            while (numstr != "0" && numstr != "1" && numstr != "2" && numstr != "3" && numstr != "4" && numstr != "5" && numstr != "6"
+             && numstr != "7" && numstr != "8" && numstr != "9") {
                 cout<<"Numero incorrecto, ingrese nuevamente"<<endl;
                 cout<<"Ingrese numero:"<<endl;
                 cin>>numstr;
@@ -250,7 +249,7 @@ void computadora(int** matriz, int size,string opcion){
             }else if (opcion == "2"){
                 matriz = numberMedium(matriz,size,x,y);
             }else{
-
+                matriz = numbreHard(matriz,size,x,y);
             }
 
             turno = true;
@@ -321,6 +320,68 @@ int** numberEasy(int** matriz, int size, int x, int y){
             ver = false;
         }
     }
+    return matriz;
+}
+
+int** numberMedium(int** matriz, int size, int x, int y){
+    srand (time(NULL));
+    bool ver = true;
+    //verifica las casillas disponibles
+    if((x+1) < size){
+        if(matriz[x+1][y] == -1){
+            matriz[x+1][y] = rand() % 10;
+            ver = false;
+        }else if ((y+1) < size){
+            if (matriz[x][y+1] == -1) {
+                matriz[x][y+1] = rand() % 10;
+                ver = false;
+            }else if ((y-1) >= 0){
+                if(matriz[x][y-1] == -1){
+                    matriz[x][y-1] == rand() % 10;
+                    ver = false;
+                }
+            }
+        }
+    }else if ((x-1) >= 0){
+        if(matriz[x-1][y] == -1){
+            matriz[x-1][y] = rand() % 10;
+            ver = false;
+        }else if ((y+1) < size){
+            if (matriz[x][y+1] == -1) {
+                matriz[x][y+1] = rand() % 10;
+                ver = false;
+            }else if ((y-1) >= 0){
+                if(matriz[x][y-1] == -1){
+                    matriz[x][y-1] == rand() % 10;
+                    ver = false;
+
+                }
+            }
+        }
+    }
+    bool ver2 = false;
+    if(ver){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(matriz[i][j] == -1){
+                    matriz[i][j] = rand() % 10;
+                    ver2 = true;
+                }
+                if(ver2){
+                    break;
+                }
+            }//segundo for
+            if(ver2){
+                break;
+            }
+        }//primer for
+    }
+    return matriz;
+}
+
+int**numbreHard(int** matriz, int size, int x, int y){
+    srand(time(NULL));
+    
     return matriz;
 }
 
@@ -496,62 +557,6 @@ int diagonales(int** matriz,int size){
     }else{
         return -2;
     }
-}
-
-int** numberMedium(int** matriz, int size, int x, int y){
-    srand (time(NULL));
-    bool ver = true;
-    //verifica las casillas disponibles
-    if((x+1) < size){
-        if(matriz[x+1][y] == -1){
-            matriz[x+1][y] = rand() % 10;
-            ver = false;
-        }else if ((y+1) < size){
-            if (matriz[x][y+1] == -1) {
-                matriz[x][y+1] = rand() % 10;
-                ver = false;
-            }else if ((y-1) >= 0){
-                if(matriz[x][y-1] == -1){
-                    matriz[x][y-1] == rand() % 10;
-                    ver = false;
-                }
-            }
-        }
-    }else if ((x-1) >= 0){
-        if(matriz[x-1][y] == -1){
-            matriz[x-1][y] = rand() % 10;
-            ver = false;
-        }else if ((y+1) < size){
-            if (matriz[x][y+1] == -1) {
-                matriz[x][y+1] = rand() % 10;
-                ver = false;
-            }else if ((y-1) >= 0){
-                if(matriz[x][y-1] == -1){
-                    matriz[x][y-1] == rand() % 10;
-                    ver = false;
-
-                }
-            }
-        }
-    }
-    bool ver2 = false;
-    if(ver){
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if(matriz[i][j] == -1){
-                    matriz[i][j] = rand() % 10;
-                    ver2 = true;
-                }
-                if(ver2){
-                    break;
-                }
-            }//segundo for
-            if(ver2){
-                break;
-            }
-        }//primer for
-    }
-    return matriz;
 }
 
 int** llenar(int** matriz, int size){
