@@ -10,12 +10,12 @@ int** crear(int size);
 void limpiar(int**,int);
 void imprimir(int**,int);
 int** llenar(int**,int);
-string convert(int);
+string convert(int);//convertir un entero para concatear
 bool primo(string);
 //dificultades del juego
-int** numberEasy(int**,int,int,int);
-int** numberMedium(int**,int,int,int);
-int** numbreHard(int**,int,int,int);
+int** Easy(int**,int,int,int);
+int** Medium(int**,int,int,int);
+int** Hard(int**,int,int,int);
 //verifica si hay alguna fila, columna o diagonal llena de numeros
 int filas(int**,int);
 int columnas(int**,int);
@@ -63,7 +63,6 @@ int main(int argc, char const *argv[]) {
                 computadora(llenar(matriz,size),size,"3");
             }
         }
-
     limpiar(matriz,size);
     return 0;
 }
@@ -74,7 +73,7 @@ string convert(int numero){// convierto el entero a un string para poder concate
     return ss.str();
 }
 
-bool primo (string numero){
+bool primo (string numero){//verificar si el numero es primo
     int num = atoi(numero.c_str());
     int cont;
     for (int i = 1; i < num+1; i++) {
@@ -239,19 +238,21 @@ void computadora(int** matriz, int size,string opcion){
             }
 
             matriz[x][y] = numero;
+            cout<<"--------------------------"<<endl;
             imprimir(matriz,size);
 
             turno = false;
         }else{
             cout<<"Turno de la computadora"<<endl;
+            //determina las dificultades del juego
             if (opcion == "1") {
-                matriz = numberEasy(matriz,size,x,y);
+                matriz = Easy(matriz,size,x,y);
             }else if (opcion == "2"){
-                matriz = numberMedium(matriz,size,x,y);
+                matriz = Medium(matriz,size,x,y);
             }else{
-                matriz = numbreHard(matriz,size,x,y);
+                matriz = Hard(matriz,size,x,y);
             }
-
+            cout<<"--------------------------"<<endl;
             turno = true;
             imprimir(matriz,size);
         }
@@ -262,9 +263,9 @@ void computadora(int** matriz, int size,string opcion){
                 if(!turno){
                     cout<<nombre<<" has ganado!"<<endl;
                 }else{
-                    cout<<"La computadora ha ganado"<<endl;
+                    cout<<"La computadora ha ganado!"<<endl;
                 }
-                ganador = false;
+                ganador = false;cont = 0;
             }
         }
         if(diagonales(matriz,size) != -2){
@@ -272,10 +273,9 @@ void computadora(int** matriz, int size,string opcion){
                 if(!turno){
                     cout<<nombre<<" has ganado!"<<endl;
                 }else{
-                    cout<<"La computadora ha ganado"<<endl;
+                    cout<<"La computadora ha ganado!"<<endl;
                 }
-                ganador = false;
-
+                ganador = false;cont = 0;
             }
         }
         if(columnas(matriz,size) != -2){
@@ -283,32 +283,32 @@ void computadora(int** matriz, int size,string opcion){
                 if(!turno){
                     cout<<nombre<<" has ganado!"<<endl;
                 }else{
-                    cout<<"La computadora ha ganado"<<endl;
+                    cout<<"La computadora ha ganado!"<<endl;
                 }
-                ganador = false;
+                ganador = false;cont = 0;
             }
         }
         //verifica si hay un empate
         if(size == 4){
             if(cont == 16){
                 ganador = false;
-                cout<<"Empate"<<endl;
+                cout<<"Empate!"<<endl;
             }
         }else if (size == 3){
             if (cont == 9) {
                 ganador = false;
-                cout<<"Empate"<<endl;
+                cout<<"Empate!"<<endl;
             }
         }else if (size == 2){
             if(cont == 4){
                 ganador = false;
-                cout<<"Empate"<<endl;
+                cout<<"Empate!"<<endl;
             }
         }
     } while(ganador);
 }
 
-int** numberEasy(int** matriz, int size, int x, int y){
+int** Easy(int** matriz, int size, int x, int y){
     srand (time(NULL));
     int x2,y2,numero;
     bool ver = true;
@@ -317,13 +317,14 @@ int** numberEasy(int** matriz, int size, int x, int y){
         y2 = rand() % size;
         if(matriz[x2][y2] == -1){
             matriz[x2][y2] =  rand() % 10;
+            cout<<"Ha ingresado en la posicion "<<x2<<", "<<y2<<endl;
             ver = false;
         }
     }
     return matriz;
 }
 
-int** numberMedium(int** matriz, int size, int x, int y){
+int** Medium(int** matriz, int size, int x, int y){
     srand (time(NULL));
     bool ver = true;
     //verifica las casillas disponibles
@@ -331,13 +332,16 @@ int** numberMedium(int** matriz, int size, int x, int y){
         if(matriz[x+1][y] == -1){
             matriz[x+1][y] = rand() % 10;
             ver = false;
+            cout<<"Ha ingresado en la posicion "<<x+1<<", "<<y<<endl;
         }else if ((y+1) < size){
             if (matriz[x][y+1] == -1) {
                 matriz[x][y+1] = rand() % 10;
                 ver = false;
+                cout<<"Ha ingresado en la posicion "<<x<<", "<<y+1<<endl;
             }else if ((y-1) >= 0){
                 if(matriz[x][y-1] == -1){
                     matriz[x][y-1] == rand() % 10;
+                    cout<<"Ha ingresado en la posicion "<<x<<", "<<y-1<<endl;
                     ver = false;
                 }
             }
@@ -345,16 +349,18 @@ int** numberMedium(int** matriz, int size, int x, int y){
     }else if ((x-1) >= 0){
         if(matriz[x-1][y] == -1){
             matriz[x-1][y] = rand() % 10;
+            cout<<"Ha ingresado en la posicion "<<x-1<<", "<<y<<endl;
             ver = false;
         }else if ((y+1) < size){
             if (matriz[x][y+1] == -1) {
                 matriz[x][y+1] = rand() % 10;
                 ver = false;
+                cout<<"Ha ingresado en la posicion "<<x<<", "<<y+1<<endl;
             }else if ((y-1) >= 0){
                 if(matriz[x][y-1] == -1){
                     matriz[x][y-1] == rand() % 10;
                     ver = false;
-
+                    cout<<"Ha ingresado en la posicion "<<x<<", "<<y-1<<endl;
                 }
             }
         }
@@ -365,6 +371,7 @@ int** numberMedium(int** matriz, int size, int x, int y){
             for (int j = 0; j < size; j++) {
                 if(matriz[i][j] == -1){
                     matriz[i][j] = rand() % 10;
+                    cout<<"Ha ingresado en la posicion "<<i<<", "<<j<<endl;
                     ver2 = true;
                 }
                 if(ver2){
@@ -379,9 +386,24 @@ int** numberMedium(int** matriz, int size, int x, int y){
     return matriz;
 }
 
-int**numbreHard(int** matriz, int size, int x, int y){
+int** Hard(int** matriz, int size, int x, int y){
     srand(time(NULL));
-    
+    bool ver = false;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (matriz[i][j] == -1) {
+                matriz[i][j] = rand() % 10;
+                cout<<"Ha ingresado en la posicion "<<i<<", "<<j<<endl;
+                ver = true;
+            }
+            if(ver){
+                break;
+            }
+        }
+        if (ver) {
+            break;
+        }
+    }
     return matriz;
 }
 
