@@ -193,44 +193,47 @@ void computadora(int** matriz, int size,string opcion){
     bool turno = true, ganador = true,verNum = false;
     int x,y,numero,cont = 0;
     string xString,yString,numstr;
-    cout<<"Ingrese su nombre:"<<endl;
+    cout<<"Ingrese su nombre: ";
     cin>>nombre;
+    cout<<endl;
     imprimir(matriz,size);
     do {
         cout<<endl;
         if (turno) {
             cout<<nombre<<" es tu turno"<<endl;
-            cout<<"Ingrese numero:"<<endl;
+            cout<<"Ingrese un numero (0-9): ";
             cin>>numstr;
+            cout<<endl;
             while (numstr != "0" && numstr != "1" && numstr != "2" && numstr != "3" && numstr != "4" && numstr != "5" && numstr != "6"
              && numstr != "7" && numstr != "8" && numstr != "9") {
                 cout<<"Numero incorrecto, ingrese nuevamente"<<endl;
-                cout<<"Ingrese numero:"<<endl;
+                cout<<"Ingrese numero: ";
                 cin>>numstr;
+                cout<<endl;
             }
             numero = atoi(numstr.c_str());
-            while ( cout << "Ingrese posicion en x: "<<endl && !(cin >> x) ){
+            while ( cout << "Ingrese posicion en x: " && !(cin >> x) ){
 		       cout << "Lo ingresado no es un numero!\n\n" ;
 		       cin.clear() ; //limpia el error
 		       cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
 	         }
 
-             while ( cout << "Ingrese posicion en y: "<<endl && !(cin >> y) ){
+            while ( cout << "Ingrese posicion en y: " && !(cin >> y) ){
                 cout << "Lo ingresado no es un numero!\n\n" ;
                 cin.clear() ; //limpia el error
                 cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
-             }
+            }
 
             while(x >= size || x < 0 || y >= size || y < 0 || matriz[x][y] != -1){
                 cout<<endl;
                 cout<<"Posicion incorrecta, ingrese de nuevo"<<endl;
-                while ( cout << "Ingrese posicion en x: "<<endl && !(cin >> x) ){
+                while ( cout << "Ingrese posicion en x: " && !(cin >> x) ){
     		       cout << "Lo ingresado no es un numero!\n\n" ;
     		       cin.clear() ; //limpia el error
     		       cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
     	        }
 
-                while ( cout << "Ingrese posicion en y: "<<endl && !(cin >> y) ){
+                while ( cout << "Ingrese posicion en y: " && !(cin >> y) ){
                    cout << "Lo ingresado no es un numero!\n\n" ;
                    cin.clear() ; //limpia el error
                    cin.ignore(std::numeric_limits<streamsize>::max(), '\n') ;
@@ -238,9 +241,9 @@ void computadora(int** matriz, int size,string opcion){
             }
 
             matriz[x][y] = numero;
-            cout<<"--------------------------"<<endl;
+            cout<<endl;
             imprimir(matriz,size);
-
+            cout<<"--------------------------"<<endl;
             turno = false;
         }else{
             cout<<"Turno de la computadora"<<endl;
@@ -252,9 +255,9 @@ void computadora(int** matriz, int size,string opcion){
             }else{
                 matriz = Hard(matriz,size,x,y);
             }
-            cout<<"--------------------------"<<endl;
             turno = true;
             imprimir(matriz,size);
+            cout<<"--------------------------"<<endl;
         }
         cont++;
         //verificar si hay un numero primo
@@ -324,7 +327,7 @@ int** Easy(int** matriz, int size, int x, int y){
     return matriz;
 }
 
-int** Medium(int** matriz, int size, int x, int y){
+int** Hard(int** matriz, int size, int x, int y){
     srand (time(NULL));
     bool ver = true;
     //verifica las casillas disponibles
@@ -386,7 +389,7 @@ int** Medium(int** matriz, int size, int x, int y){
     return matriz;
 }
 
-int** Hard(int** matriz, int size, int x, int y){
+int** Medium(int** matriz, int size, int x, int y){
     srand(time(NULL));
     bool ver = false;
     for (int i = 0; i < size; i++) {
