@@ -3,7 +3,7 @@
 #include <time.h>
 #include <sstream>
 #include <stdlib.h>
-#include <limits>
+#include <limits>//validar si ingresa una cadena
 using namespace std;
 
 int** crear(int size);
@@ -438,10 +438,27 @@ bool verificarDiagonales(int** matriz,int size,int numero){
     for (int i = acum.size()-1; i >= 0; i--) {
         back += acum.at(i);
     }
+    bool guion = true;
     if (primo(back)) {
-        return true;
+        for (int i = 0; i < back.size(); i++) {
+            if (back.at(i) == '-') {
+                guion = false;
+            }
+        }
+        if (guion) {
+            cout<<"El numero "<<back<<" es primo"<<endl;
+        }
+        return guion;
     }else if (primo(acum)){
-        return true;
+        for (int i = 0; i < acum.size(); i++) {
+            if (acum.at(i) == '-') {
+                guion = false;
+            }
+        }
+        if (guion) {
+            cout<<"El numero "<<acum<<" es primo"<<endl;
+        }
+        return guion;
     }else{
         return false;
     }
@@ -459,10 +476,27 @@ bool verificarFilas (int** matriz, int size, int numero){
     for (int i = acum.size()-1; i >= 0; i--) {
         back += acum.at(i);
     }
+    bool guion = true;
     if (primo(back)) {
-        return true;
+        for (int i = 0; i < back.size(); i++) {
+            if (back.at(i) == '-') {
+                guion = false;
+            }
+        }
+        if (guion) {
+            cout<<"El numero "<<back<<" es primo"<<endl;
+        }
+        return guion;
     }else if (primo(acum)){
-        return true;
+        for (int i = 0; i < acum.size(); i++) {
+            if (acum.at(i) == '-') {
+                guion = false;
+            }
+        }
+        if (guion) {
+            cout<<"El numero "<<acum<<" es primo"<<endl;
+        }
+        return guion;
     }else{
         return false;
     }
@@ -477,13 +511,31 @@ bool verificarColumnas(int** matriz, int size, int numero){
             }
         }
     }
-    for (int i = acum.size(); i >= 0; i--) {
+    for (int i = acum.size()-1; i >= 0; i--) {
         back += acum[i];
     }
     if (primo(back)) {
-        return true;
+        bool guion = true;
+        for (int i = 0; i < back.size(); i++) {
+            if (back.at(i) == '-') {
+                guion = false;
+            }
+        }
+        if (guion) {
+            cout<<"El numero "<<back<<" es primo"<<endl;
+        }
+        return guion;
     }else if (primo(acum)){
-        return true;
+        bool guion = true;
+        for (int i = 0; i < acum.size(); i++) {
+            if (acum.at(i) == '-') {
+                guion = false;
+            }
+        }
+        if (guion) {
+            cout<<"El numero "<<acum<<" es primo"<<endl;
+        }
+        return guion;
     }else{
         return false;
     }
